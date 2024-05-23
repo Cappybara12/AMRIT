@@ -1,0 +1,96 @@
+/*
+* AMRIT – Accessible Medical Records via Integrated Technology 
+* Integrated EHR (Electronic Health Records) Solution 
+*
+* Copyright (C) "Piramal Swasthya Management and Research Institute" 
+*
+* This file is part of AMRIT.
+*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program.  If not, see https://www.gnu.org/licenses/.
+*/
+package com.iemr.common.mapper.utils;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonNull;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.LongSerializationPolicy;
+
+public final class InputMapper
+{
+	private final Logger logger = LoggerFactory.getLogger(this.getClass().getName());
+
+	private static GsonBuilder builder;
+	private static InputMapper instance = null;
+
+	private InputMapper()
+	{
+		builder = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+				// .excludeFieldsWithoutExposeAnnotation()
+				.serializeNulls().setLongSerializationPolicy(LongSerializationPolicy.STRING);
+	}
+
+	public static InputMapper getInstance()
+	{
+		if (instance == null)
+		{
+			instance = new InputMapper();
+		}
+
+		return instance;
+	}
+
+	public Gson gson()
+	{
+		return builder.create();
+	}
+
+	public <T> T fromJson(String json, Class<T> classOfT) throws Exception
+	{
+		return builder.create().fromJson(json, classOfT);
+	}
+
+	public boolean validate(String json) throws Exception
+	{
+		// JsonElement - could be a JsonObject, a JsonArray, a JsonPrimitive or a JsonNull
+		JsonElement element = new JsonParser().parse(json);
+
+		if (element instanceof JsonObject)
+		{
+			logger.info("Of Type JsonObject - true!");
+			return true;
+		} else if (element instanceof JsonArray)
+		{
+			logger.info("Of Type JsonArray - true!");
+			return true;
+		} else if (element instanceof JsonPrimitive)
+		{
+			logger.info("Of Type JsonPrimitive - true!");
+			return true;
+		} else if (element instanceof JsonNull)
+		{
+			logger.info("Of Type JsonNull - true!");
+			return true;
+		}
+
+		return false;
+	}
+}

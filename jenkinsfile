@@ -1,8 +1,8 @@
 pipeline {
     agent any
     environment {
-        DB_PASSWORD = credentials('db-password')  // Ensure this matches the ID of your credentials in Jenkins
-        API_KEY = credentials('api-key')          // Ensure this matches the ID of your credentials in Jenkins
+        DB_PASSWORD = credentials('db-password-placeholder')
+        API_KEY = credentials('api-key-placeholder')    // Ensure this matches the ID of your credentials in Jenkins
     }
     stages {
         stage('Checkout') {

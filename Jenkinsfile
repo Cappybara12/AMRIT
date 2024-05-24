@@ -20,16 +20,16 @@ pipeline {
                 sh 'mvn test'
             }
         }
-        stage('Database Migrations') {
-            steps {
-                sh 'mvn flyway:migrate'
-            }
-        }
-        stage('Deploy to WildFly') {
-            steps {
-                deployToWildFly()
-            }
-        }
+        // stage('Database Migrations') {
+        //     steps {
+        //         sh 'mvn flyway:migrate'
+        //     }
+        // }
+        // stage('Deploy to WildFly') {
+        //     steps {
+        //         deployToWildFly()
+        //     }
+        // }
     }
 }
 
